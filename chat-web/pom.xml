@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <artifactId>weixin-chat</artifactId>
+        <groupId>me.jiangcai.chat</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>chat-web</artifactId>
+    <packaging>war</packaging>
+
+    <properties>
+        <maven.deploy.skip>true</maven.deploy.skip>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>me.jiangcai.chat</groupId>
+            <artifactId>chat-service</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>me.jiangcai.wx</groupId>
+            <artifactId>weixin-web</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>me.jiangcai.lib</groupId>
+            <artifactId>test</artifactId>
+            <version>${jiangcai.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax</groupId>
+            <artifactId>javaee-web-api</artifactId>
+            <version>${javaee.version}</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+
+
+</project>
