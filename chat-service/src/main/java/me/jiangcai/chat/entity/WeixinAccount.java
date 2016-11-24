@@ -1,7 +1,7 @@
 package me.jiangcai.chat.entity;
 
-import me.jiangcai.wx.PublicAccountSupplier;
-import me.jiangcai.wx.model.PublicAccount;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,56 +14,36 @@ import java.time.LocalDateTime;
  *
  * @author luffy luffy.ja at gmail.com
  */
+@Setter
+@Getter
 @Entity
-public class WeixinAccount extends PublicAccount {
-    @Override
-    public PublicAccountSupplier getSupplier() {
-        return null;
-    }
+public class WeixinAccount {
 
+    // 基本
     @Id
     @Column(length = 50)
-    @Override
-    public String getAppID() {
-        return super.getAppID();
-    }
-
+    private String appID;
     @Column(length = 50)
-    @Override
-    public String getAppSecret() {
-        return super.getAppSecret();
-    }
-
-    @Column(length = 50)
-    @Override
-    public String getInterfaceURL() {
-        return super.getInterfaceURL();
-    }
-
-    @Override
-    public String getInterfaceToken() {
-        return super.getInterfaceToken();
-    }
-
-    @Override
-    public String getAccessToken() {
-        return super.getAccessToken();
-    }
-
+    private String appSecret;
+    // 接口
+    /**
+     * 微信接口配置信息:URL,为了提高效率,规定该URL必须以斜杠结尾!
+     */
+    @Column(length = 200)
+    private String interfaceURL;
+    @Column(length = 200)
+    private String interfaceToken;
+    // 句柄信息
+    private String accessToken;
     @Column(columnDefinition = "datetime")
-    @Override
-    public LocalDateTime getTimeToExpire() {
-        return super.getTimeToExpire();
-    }
-
-    @Override
-    public String getJavascriptTicket() {
-        return super.getJavascriptTicket();
-    }
-
+    private LocalDateTime timeToExpire;
+    //
+    /**
+     * jsapi_ticket
+     */
+    private String javascriptTicket;
     @Column(columnDefinition = "datetime")
-    @Override
-    public LocalDateTime getJavascriptTimeToExpire() {
-        return super.getJavascriptTimeToExpire();
-    }
+    private LocalDateTime javascriptTimeToExpire;
+
+
 }

@@ -1,5 +1,6 @@
 package me.jiangcai.chat.web.config;
 
+import me.jiangcai.chat.ServiceConfig;
 import me.jiangcai.wx.web.WeixinWebSpringConfig;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -13,7 +14,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
  * @author luffy luffy.ja at gmail.com
  */
 @Configuration
-@Import({WeixinWebSpringConfig.class})
+@Import({ServiceConfig.class, WeixinWebSpringConfig.class})
 @ComponentScan("me.jiangcai.wxtest.controller")
 @EnableWebMvc
 public class WebConfig {
