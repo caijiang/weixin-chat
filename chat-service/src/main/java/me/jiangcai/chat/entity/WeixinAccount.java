@@ -45,5 +45,11 @@ public class WeixinAccount {
     @Column(columnDefinition = "datetime")
     private LocalDateTime javascriptTimeToExpire;
 
+    /**
+     * 管理者的openId
+     */
+    @Column(length = 50)
+    private String ownerOpenId;
+
 
 }

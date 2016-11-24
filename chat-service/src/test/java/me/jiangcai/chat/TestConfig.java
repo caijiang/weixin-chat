@@ -1,6 +1,6 @@
 package me.jiangcai.chat;
 
-import me.jiangcai.wx.test.WeixinTestConfig;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.ImportResource;
@@ -11,7 +11,8 @@ import org.springframework.context.annotation.ImportResource;
  * @author luffy luffy.ja at gmail.com
  */
 @Configuration
-@Import({WeixinTestConfig.class, DSConfig.class})
+@Import({DSConfig.class})
+@ComponentScan("me.jiangcai.chat.test")
 @ImportResource("classpath:/datasource_local.xml")
 class TestConfig {
 }

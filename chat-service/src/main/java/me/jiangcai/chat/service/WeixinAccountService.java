@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -26,29 +27,35 @@ public class WeixinAccountService implements PublicAccountSupplier {
     @Override
     public List<? extends PublicAccount> getAccounts() {
         return weixinAccountRepository.findAll().stream()
-                .map(weixinAccount -> {
-                    final PublicAccount publicAccount = new PublicAccount() {
-                        @Override
-                        public PublicAccountSupplier getSupplier() {
-                            return WeixinAccountService.this;
-                        }
-                    };
-                    publicAccount.setAppID(weixinAccount.getAppID());
-                    publicAccount.setAppSecret(weixinAccount.getAppSecret());
-                    publicAccount.setInterfaceToken(weixinAccount.getInterfaceToken());
-                    publicAccount.setInterfaceURL(weixinAccount.getInterfaceURL());
-                    publicAccount.setAccessToken(weixinAccount.getAccessToken());
-                    publicAccount.setTimeToExpire(weixinAccount.getTimeToExpire());
-                    publicAccount.setJavascriptTicket(weixinAccount.getJavascriptTicket());
-                    publicAccount.setJavascriptTimeToExpire(weixinAccount.getJavascriptTimeToExpire());
-                    return publicAccount;
-                })
+                .map(getWeixinAccountPublicAccountFunction())
                 .collect(Collectors.toList());
+    }
+
+    private Function<WeixinAccount, PublicAccount> getWeixinAccountPublicAccountFunction() {
+        return weixinAccount -> {
+            if (weixinAccount == null)
+                return null;
+            final PublicAccount publicAccount = new PublicAccount() {
+                @Override
+                public PublicAccountSupplier getSupplier() {
+                    return WeixinAccountService.this;
+                }
+            };
+            publicAccount.setAppID(weixinAccount.getAppID());
+            publicAccount.setAppSecret(weixinAccount.getAppSecret());
+            publicAccount.setInterfaceToken(weixinAccount.getInterfaceToken());
+            publicAccount.setInterfaceURL(weixinAccount.getInterfaceURL());
+            publicAccount.setAccessToken(weixinAccount.getAccessToken());
+            publicAccount.setTimeToExpire(weixinAccount.getTimeToExpire());
+            publicAccount.setJavascriptTicket(weixinAccount.getJavascriptTicket());
+            publicAccount.setJavascriptTimeToExpire(weixinAccount.getJavascriptTimeToExpire());
+            return publicAccount;
+        };
     }
 
     @Override
     public PublicAccount findByIdentifier(String identifier) {
-        return getAccounts().stream().findAny().orElse(null);
+        return getWeixinAccountPublicAccountFunction().apply(weixinAccountRepository.findOne(identifier));
     }
 
     @Override
@@ -71,6 +78,6 @@ public class WeixinAccountService implements PublicAccountSupplier {
 
     @Override
     public PublicAccount findByHost(String host) {
-        return getAccounts().stream().findAny().orElse(null);
+        return getWeixinAccountPublicAccountFunction().apply(weixinAccountRepository.findOne(host));
     }
 }
