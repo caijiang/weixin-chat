@@ -9,6 +9,7 @@ import me.jiangcai.wx.model.PublicAccount;
 import me.jiangcai.wx.protocol.Protocol;
 import org.junit.Before;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.web.WebAppConfiguration;
 
@@ -22,19 +23,16 @@ import org.springframework.test.context.web.WebAppConfiguration;
 public abstract class ServiceTestBase extends SpringWebTest {
 
     @Autowired
+    protected ApplicationContext applicationContext;
+    @Autowired
     protected WeixinRequestHandler weixinRequestHandler;
     protected WeixinAccount testWeixinAccount;
     protected PublicAccount testPublicAccount;
-
-    @Before
-    public void init() {
-        testWeixinAccount = weixinAccountRepository.getOne(Protocol.VirtualAppID);
-        testPublicAccount = publicAccountSupplier.findByIdentifier(Protocol.VirtualAppID);
-    }
-
     @SuppressWarnings("SpringJavaAutowiringInspection")
     @Autowired
     private WeixinAccountRepository weixinAccountRepository;
+    @Autowired
+    private PublicAccountSupplier publicAccountSupplier;
 
     @Before
     public void init() {
@@ -42,8 +40,9 @@ public abstract class ServiceTestBase extends SpringWebTest {
         testPublicAccount = publicAccountSupplier.findByIdentifier(Protocol.VirtualAppID);
     }
 
-    @Autowired
-    private PublicAccountSupplier publicAccountSupplier;
+    protected People randomPeople() {
+        return new People(applicationContext, testPublicAccount);
+    }
 
     //    @Test
     public void go() throws Exception {
